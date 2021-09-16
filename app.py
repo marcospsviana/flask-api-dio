@@ -12,7 +12,7 @@ def create_app():
 
             },
             {
-                'nome': 'tiago tardelli',
+                'nome': 'ze das couves',
                 'skills': ['python', 'django', 'flask', 'kotlin', 'C#', 'Java', 'html', 'css', 'react', 'vuejs'],
 
             },
