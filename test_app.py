@@ -51,5 +51,5 @@ def test_post_desenvolvedor_index():
 
 def test_post_desenvolvedor_index_delete():
     flask_app = create_app()
-    response = flask_app.test_client().put('/desenvolvedores/0')
+    response = flask_app.test_client().put('/degit senvolvedores/0')
     assert response.status_code == 200
