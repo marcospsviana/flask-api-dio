@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from app import create_app
+from app_rest import create_app
 
 
 @pytest.fixture
@@ -33,13 +33,13 @@ def test_get_page_get():
 def test_get_desenvolvedor():
     flask_app = create_app()
     response = flask_app.test_client().get('/desenvolvedores')
-    assert json.loads(response.data)['desenvolvedores'][0] == {'nome': 'marcos paulo',
+    assert json.loads(response.data)[0] == {'nome': 'marcos paulo',
                                                                'skills': ['python', 'django', 'flask']}
 
 
 def test_post_desenvolvedor():
     flask_app = create_app()
-    response = flask_app.test_client().post('/desenvolvedores', )
+    response = flask_app.test_client().post('/create-dev', )
     assert response.status_code == 200
 
 
@@ -51,5 +51,10 @@ def test_post_desenvolvedor_index():
 
 def test_post_desenvolvedor_index_delete():
     flask_app = create_app()
-    response = flask_app.test_client().put('/desenvolvedores/0')
+    response = flask_app.test_client().delete(f'/desenvolvedores/{0}')
     assert response.status_code == 200
+
+def test_desenvolvedor_index_delete_error():
+    flask_app = create_app()
+    response = flask_app.test_client().delete('/desenvolvedores/1000')
+    assert json.loads(response.data) == {'error': 'NOT FOUND', 'message': f'Não foi encontrado nenhum desenvolvedor de id 1000'}
