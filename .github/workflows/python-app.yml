@@ -14,6 +14,7 @@ jobs:
     env:
         CODECOV_TOKEN: 5667318f-99cb-4eff-820f-08f5e7c2473f
 
+
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.9
@@ -39,3 +40,4 @@ jobs:
     - name: Test with pytest
       run: |
         pytest --cov=./
+
