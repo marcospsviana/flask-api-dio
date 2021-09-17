@@ -16,7 +16,7 @@ CHOICES = ["PHP", "Python", "C#", "Javascript", "C++"]
 class Skills(Base):
     __tablename__ = "skills"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    skill = Column(String(30), index=True)
+    skill = Column(String(50), index=True)
 
     def __repr__(self):
         return self.skill
@@ -25,7 +25,7 @@ class Skills(Base):
 class DeleveLopers(Base):
     __tablename__ = "developers"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(60), nullable=False, index=True)
+    name = Column(String(80), nullable=False, index=True)
     skills_id = Column(Integer, ForeignKey("skills.id"))
     skill = relationship("Skills")
 
