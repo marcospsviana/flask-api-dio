@@ -39,7 +39,6 @@ def test_get_desenvolvedor():
     }
 
 
-
 def test_post_desenvolvedor():
     flask_app = create_app()
     response = flask_app.test_client().post(
@@ -69,4 +68,3 @@ def test_desenvolvedor_index_delete_error():
         "error": "NOT FOUND",
         "message": "Não foi encontrado nenhum desenvolvedor de id 1000",
     }
-
