@@ -11,7 +11,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.9
@@ -37,4 +37,5 @@ jobs:
         CODECOV_TOKEN: 5667318f-99cb-4eff-820f-08f5e7c2473f
       run: |
         codecov
+
 
