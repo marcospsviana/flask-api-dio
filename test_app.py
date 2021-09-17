@@ -39,7 +39,6 @@ def test_get_desenvolvedor():
     }
 
 
-
 def test_post_desenvolvedor():
     flask_app = create_app()
     response = flask_app.test_client().post(
@@ -67,6 +66,5 @@ def test_desenvolvedor_index_delete_error():
     response = flask_app.test_client().delete("/desenvolvedores/1000")
     assert json.loads(response.data) == {
         "error": "NOT FOUND",
-        "message": f"Não foi encontrado nenhum desenvolvedor de id 1000",
+        "message": "Não foi encontrado nenhum desenvolvedor de id 1000",
     }
-
