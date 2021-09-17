@@ -3,6 +3,8 @@ import json
 import pytest
 
 from app_rest import create_app
+from models import Developers
+from desenvolvedores import Skills, return_skill
 
 
 @pytest.fixture
@@ -32,17 +34,19 @@ def test_get_page_get():
 
 def test_get_desenvolvedor():
     flask_app = create_app()
-    response = flask_app.test_client().get("/desenvolvedores")
-    assert json.loads(response.data)[0] == {
-        "nome": "marcos paulo",
-        "skills": ["python", "django", "flask"],
+    response = flask_app.test_client().get("/desenvolvedores/1")
+    skills = return_skill('1,2')
+    assert json.loads(response.data) == {
+        "id": 1,
+        "name": "marcos",
+        "skills": skills
     }
 
 
 def test_post_desenvolvedor():
     flask_app = create_app()
     response = flask_app.test_client().post(
-        "/create-dev",
+        "/create-dev", data={"id": None, "name": "ze das uvas", "skills_ids": "1,3"}
     )
 
     assert response.status_code == 200
@@ -50,7 +54,7 @@ def test_post_desenvolvedor():
 
 def test_post_desenvolvedor_index():
     flask_app = create_app()
-    response = flask_app.test_client().get("/desenvolvedores/0")
+    response = flask_app.test_client().get("/desenvolvedores/1")
     assert response.status_code == 200
 
 
