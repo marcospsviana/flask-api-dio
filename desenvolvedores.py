@@ -4,23 +4,29 @@ from flask import request
 from flask_restful import Resource
 
 desenvolvedores = [
-
     {
-        'nome': 'marcos paulo',
-        'skills': ['python', 'django', 'flask'],
-
+        "nome": "marcos paulo",
+        "skills": ["python", "django", "flask"],
     },
     {
-        'nome': 'ze das couves',
-        'skills': ['python', 'django', 'flask', 'kotlin', 'C#', 'Java', 'html', 'css', 'react', 'vuejs'],
-
+        "nome": "ze das couves",
+        "skills": [
+            "python",
+            "django",
+            "flask",
+            "kotlin",
+            "C#",
+            "Java",
+            "html",
+            "css",
+            "react",
+            "vuejs",
+        ],
     },
-
 ]
 
 
 class Desenvolvedores(Resource):
-
     def get(self):
         return desenvolvedores
 
@@ -30,9 +36,9 @@ class CreateDesenvolvedor(Resource):
         try:
             dados = json.loads(request.data)
             desenvolvedores.append(dados)
-            return {'success': f'cadastro de {dados["nome"]} realizado com sucesso'}
+            return {"success": f'cadastro de {dados["nome"]} realizado com sucesso'}
         except Exception as err:
-            return {'error': f'{err}'}
+            return {"error": f"{err}"}
 
 
 class Desenvolvedor(Resource):
@@ -44,11 +50,17 @@ class Desenvolvedor(Resource):
             dados = json.loads(request.data)
             desenvolvedores[id] = dados
         except IndexError:
-            return {'error': 'NOT FOUND', 'message': f'Não foi encontrado nenhum desenvolvedor de id {id}'}
+            return {
+                "error": "NOT FOUND",
+                "message": f"Não foi encontrado nenhum desenvolvedor de id {id}",
+            }
 
     def delete(self, id):
         try:
             dado_dev = desenvolvedores.pop(id)
             return dado_dev
         except IndexError:
-            return {'error': 'NOT FOUND', 'message': f'Não foi encontrado nenhum desenvolvedor de id {id}'}
+            return {
+                "error": "NOT FOUND",
+                "message": f"Não foi encontrado nenhum desenvolvedor de id {id}",
+            }
