@@ -4,6 +4,7 @@ from flask import request
 from flask_restful import Resource
 
 desenvolvedores = [
+
     {
         "nome": "marcos paulo",
         "skills": ["python", "django", "flask"],
@@ -23,10 +24,10 @@ desenvolvedores = [
             "vuejs",
         ],
     },
-]
 
 
 class Desenvolvedores(Resource):
+
     def get(self):
         return desenvolvedores
 
@@ -39,6 +40,7 @@ class CreateDesenvolvedor(Resource):
             return {"success": f'cadastro de {dados["nome"]} realizado com sucesso'}
         except Exception as err:
             return {"error": f"{err}"}
+
 
 
 class Desenvolvedor(Resource):
@@ -55,6 +57,7 @@ class Desenvolvedor(Resource):
                 "message": f"Não foi encontrado nenhum desenvolvedor de id {id}",
             }
 
+
     def delete(self, id):
         try:
             dado_dev = desenvolvedores.pop(id)
@@ -64,3 +67,4 @@ class Desenvolvedor(Resource):
                 "error": "NOT FOUND",
                 "message": f"Não foi encontrado nenhum desenvolvedor de id {id}",
             }
+
