@@ -1,4 +1,5 @@
 from sqlalchemy import Integer, String, Column
+
 from sqlalchemy import create_engine
 from sqlalchemy.dialects.sqlite.json import JSON
 from sqlalchemy.ext.declarative import declarative_base

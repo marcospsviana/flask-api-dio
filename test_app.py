@@ -2,7 +2,11 @@ import json
 import pytest
 from app_rest import create_app
 from models import Developers
+<<<<<<< HEAD
 from model_bakery import baker
+=======
+from desenvolvedores import Skills, return_skill
+>>>>>>> 7a784ae12e0c649193eaff47c231199a8a003d34
 
 
 @pytest.fixture
@@ -29,6 +33,20 @@ def test_get_page_get():
     assert response.status_code == 200
 
 
+<<<<<<< HEAD
+=======
+def test_get_desenvolvedor():
+    flask_app = create_app()
+    response = flask_app.test_client().get("/desenvolvedores/1")
+    skills = return_skill('1,2')
+    assert json.loads(response.data) == {
+        "id": 1,
+        "name": "marcos",
+        "skills": skills
+    }
+
+
+>>>>>>> 7a784ae12e0c649193eaff47c231199a8a003d34
 def test_post_desenvolvedor():
     flask_app = create_app()
     response = flask_app.test_client().post(
