@@ -1,8 +1,18 @@
 import json
 from flask import request
 from flask_restful import Resource
+
 from models import Developers, db_session
 from http import HTTPStatus
+
+
+def return_skill(id):
+    list_ids = id.split(",")
+    list_skills = list()
+    for id in list_ids:
+        skill = Skills(int(id)).name  # .query.filter_by(id=id).first()
+        list_skills.append(skill)
+    return list_skills
 
 
 class Desenvolvedores(Resource):
