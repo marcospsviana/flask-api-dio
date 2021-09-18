@@ -1,7 +1,5 @@
 import json
-
 import pytest
-
 from app_rest import create_app
 from models import Developers
 from model_bakery import baker
