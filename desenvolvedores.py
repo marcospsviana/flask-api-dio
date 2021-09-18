@@ -1,70 +1,66 @@
 import json
-
 from flask import request
 from flask_restful import Resource
-
-desenvolvedores = [
-
-    {
-        "nome": "marcos paulo",
-        "skills": ["python", "django", "flask"],
-    },
-    {
-        "nome": "ze das couves",
-        "skills": [
-            "python",
-            "django",
-            "flask",
-            "kotlin",
-            "C#",
-            "Java",
-            "html",
-            "css",
-            "react",
-            "vuejs",
-        ],
-    },
+from models import Developers, db_session
+from http import HTTPStatus
 
 
 class Desenvolvedores(Resource):
-
     def get(self):
-        return desenvolvedores
+        developers = Developers.query.all()
+        developer = [
+            {"id": dev.id, "name": dev.name, "skills": dev.skills_ids}
+            for dev in developers
+        ]
+        return developer
 
 
 class CreateDesenvolvedor(Resource):
     def post(self):
         try:
             dados = json.loads(request.data)
-            desenvolvedores.append(dados)
-            return {"success": f'cadastro de {dados["nome"]} realizado com sucesso'}
-        except Exception as err:
-            return {"error": f"{err}"}
-
+            developers = Developers()
+            developers["name"] = dados["name"]
+            developers["skills_ids"] = dados["skills_ids"]
+            db_session.save(developers)
+            db_session.commit()
+            return HTTPStatus.OK
+        except Exception:
+            return HTTPStatus.BAD_REQUEST
 
 
 class Desenvolvedor(Resource):
     def get(self, id):
-        return desenvolvedores[id]
+        developer = Developers.query.filter_by(id=id).first()
+        response = {
+            "id": developer.id,
+            "name": developer.name,
+            "skills": developer.skills_ids,
+        }
+        return response
 
     def put(self, id):
-        try:
-            dados = json.loads(request.data)
-            desenvolvedores[id] = dados
-        except IndexError:
-            return {
-                "error": "NOT FOUND",
-                "message": f"Não foi encontrado nenhum desenvolvedor de id {id}",
-            }
+        dados = json.loads(request.data)
 
+        developer = Developers.query.filter_by(id=id).first()
+        if developer is None:
+            return HTTPStatus.NOT_FOUND
+        if dados["name"]:
+            developer.name = dados["name"]
+        if dados["skills_ids"]:
+            developer.skills_ids = dados["skills_ids"]
+        db_session.add(developer)
+        db_session.commit()
+        return HTTPStatus.OK
 
     def delete(self, id):
         try:
-            dado_dev = desenvolvedores.pop(id)
-            return dado_dev
-        except IndexError:
-            return {
-                "error": "NOT FOUND",
-                "message": f"Não foi encontrado nenhum desenvolvedor de id {id}",
-            }
+            developer = Developers.query.filter_by(id=id).first()
 
+            if developer:
+                developer = db_session.session_factory()
+                db_session.remove()
+                db_session.commit()
+            return HTTPStatus.OK
+        except IndexError:
+            return HTTPStatus.NOT_FOUND

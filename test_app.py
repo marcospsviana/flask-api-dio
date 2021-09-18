@@ -3,13 +3,14 @@ import json
 import pytest
 
 from app_rest import create_app
+from models import Developers
+from model_bakery import baker
 
 
 @pytest.fixture
-def get_dev_by_id():
-    flask_app = create_app()
-    response = flask_app.test_client().get("desenvolvedores/<int:id>")
-    return response
+def developer(db):
+    dev = baker.make(Developers, _quantity=1)
+    return dev
 
 
 def test_get_page_post():
@@ -30,43 +31,38 @@ def test_get_page_get():
     assert response.status_code == 200
 
 
-def test_get_desenvolvedor():
-    flask_app = create_app()
-    response = flask_app.test_client().get("/desenvolvedores")
-    assert json.loads(response.data)[0] == {
-        "nome": "marcos paulo",
-        "skills": ["python", "django", "flask"],
-    }
-
-
-
 def test_post_desenvolvedor():
     flask_app = create_app()
     response = flask_app.test_client().post(
-        "/create-dev",
+        "/create-dev", data={"id": None, "name": "ze das uvas", "skills_ids": "1,3"}
     )
-
     assert response.status_code == 200
 
 
-def test_post_desenvolvedor_index():
+def test_get_desenvolvedor_index():
     flask_app = create_app()
-    response = flask_app.test_client().get("/desenvolvedores/0")
+    response = flask_app.test_client().get("/desenvolvedores/1")
     assert response.status_code == 200
 
 
-def test_post_desenvolvedor_index_delete():
+def test_delete_desenvolvedor_index():
     flask_app = create_app()
-    response = flask_app.test_client().delete(f"/desenvolvedores/{0}")
+    response = flask_app.test_client().delete("/desenvolvedores/1")
 
     assert response.status_code == 200
 
 
 def test_desenvolvedor_index_delete_error():
     flask_app = create_app()
-    response = flask_app.test_client().delete("/desenvolvedores/1000")
-    assert json.loads(response.data) == {
-        "error": "NOT FOUND",
-        "message": f"Não foi encontrado nenhum desenvolvedor de id 1000",
-    }
+    response = flask_app.test_client().delete("/desenvolvedores/b")
+    assert response.status_code == 404
 
+
+def test_desenvolvedor_index_put():
+    flask_app = create_app()
+    headers = {"content-type": "application/json"}
+    payload = json.dumps({"id": 1, "name": "ze das uvas", "skills_ids": "Java"})
+    response = flask_app.test_client().put(
+        "/desenvolvedores/1", headers=headers, data=payload
+    )
+    assert response.status_code == 200
