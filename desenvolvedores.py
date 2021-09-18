@@ -31,13 +31,16 @@ class CreateDesenvolvedor(Resource):
 
 class Desenvolvedor(Resource):
     def get(self, id):
-        developer = Developers.query.filter_by(id=id).first()
-        response = {
-            "id": developer.id,
-            "name": developer.name,
-            "skills": developer.skills_ids,
-        }
-        return response
+        try:
+            developer = Developers.query.filter_by(id=id).first()
+            response = {
+                "id": developer.id,
+                "name": developer.name,
+                "skills": developer.skills_ids,
+            }
+            return response
+        except IndexError:
+            return HTTPStatus.NOT_FOUND
 
     def put(self, id):
         dados = json.loads(request.data)
