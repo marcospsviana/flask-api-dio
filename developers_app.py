@@ -4,8 +4,10 @@ from flask_restful import Resource
 from models import Developers, db_session
 from http import HTTPStatus
 
+def auth_verification():
+    pass
 
-class Desenvolvedores(Resource):
+class DevelopersGet(Resource):
     def get(self):
         developers = Developers.query.all()
         developer = [
@@ -15,7 +17,7 @@ class Desenvolvedores(Resource):
         return developer
 
 
-class CreateDesenvolvedor(Resource):
+class CreateDeveloper(Resource):
     def post(self):
         try:
             dados = json.loads(request.data)
@@ -29,7 +31,7 @@ class CreateDesenvolvedor(Resource):
             return HTTPStatus.BAD_REQUEST
 
 
-class Desenvolvedor(Resource):
+class Developer(Resource):
     def get(self, id):
         try:
             developer = Developers.query.filter_by(id=id).first()
@@ -43,15 +45,15 @@ class Desenvolvedor(Resource):
             return HTTPStatus.NOT_FOUND
 
     def put(self, id):
-        dados = json.loads(request.data)
+        data = json.loads(request.data)
 
         developer = Developers.query.filter_by(id=id).first()
         if developer is None:
             return HTTPStatus.NOT_FOUND
-        if dados["name"]:
-            developer.name = dados["name"]
-        if dados["skills_ids"]:
-            developer.skills_ids = dados["skills_ids"]
+        if data["name"]:
+            developer.name = data["name"]
+        if data["skills_ids"]:
+            developer.skills_ids = data["skills_ids"]
         db_session.add(developer)
         db_session.commit()
         return HTTPStatus.OK
