@@ -10,8 +10,8 @@ def create_app():
     api = Api(app)
 
     api.add_resource(DevelopersGet, "/desenvolvedores")
-    api.add_resource(CreateDesenvolvedor, "/create-dev")
-    api.add_resource(Desenvolvedor, "/desenvolvedores/<int:id>")
+    api.add_resource(CreateDeveloper, "/create-dev")
+    api.add_resource(Developer, "/desenvolvedores/<int:id>")
 
     return app
 
