@@ -5,7 +5,6 @@ from models import Developers
 from model_bakery import baker
 
 
-
 @pytest.fixture
 def developer(db):
     dev = baker.make(Developers, _quantity=1)
