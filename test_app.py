@@ -5,7 +5,6 @@ from models import Developers, Users, db_session
 from model_bakery import baker
 from flask import request
 
-
 @pytest.fixture
 def developer(db):
     dev = baker.make(Developers, _quantity=1)
