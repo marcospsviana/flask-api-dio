@@ -20,7 +20,7 @@ class Users(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String(25), nullable=False, index=True)
     password = Column(String(255), nullable=False)
-    token = Column(String(300))
+    token = Column(String(300), nullable=False)
 
     def save(self):
         db_session.add(self)
