@@ -1,5 +1,4 @@
 from sqlalchemy import Integer, String, Column
-
 from sqlalchemy import create_engine
 from sqlalchemy.dialects.sqlite.json import JSON
 from sqlalchemy.ext.declarative import declarative_base
@@ -14,6 +13,18 @@ db_session = scoped_session(sessionmaker(autocommit=False, bind=engine))
 
 Base = declarative_base()
 Base.query = db_session.query_property()
+
+
+class Users(Base):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(String(25), nullable=False, index=True)
+    password = Column(String(255), nullable=False)
+    token = Column(String(300))
+
+    def save(self):
+        db_session.add(self)
+        db_session.commit()
 
 
 class Developers(Base):
