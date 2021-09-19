@@ -4,7 +4,6 @@ from sqlalchemy.dialects.sqlite.json import JSON
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-
 engine = create_engine("sqlite:///developers.db")
 
 conn = engine.connect()
@@ -18,9 +17,11 @@ Base.query = db_session.query_property()
 class Users(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    username = Column(String(25), nullable=False, index=True)
+    username = Column(String(25), nullable=False, index=True, unique=True)
     password = Column(String(255), nullable=False)
-    token = Column(String(300), nullable=False)
+
+    def __repr__(self):
+        return self.username
 
     def save(self):
         db_session.add(self)
