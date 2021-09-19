@@ -8,7 +8,6 @@ from developers_app import DevelopersGet, CreateDeveloper, Developer
 def create_app():
     app = Flask(__name__)
     api = Api(app)
-
     api.add_resource(DevelopersGet, "/desenvolvedores")
     api.add_resource(CreateDeveloper, "/create-dev")
     api.add_resource(Developer, "/desenvolvedores/<int:id>")
