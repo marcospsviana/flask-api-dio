@@ -19,7 +19,7 @@ jobs:
           python-version: 3.9
       - name: Install dependencies
         run: |
-          rm api_rest/database/developers.db
+          rm /api_rest/database/developers.db
           python -m pip install --upgrade pip
           pip install flake8 pytest
           pip install -r requirements-dev.txt
