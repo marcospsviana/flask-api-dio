@@ -4,7 +4,7 @@ from sqlalchemy.dialects.sqlite.json import JSON
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-engine = create_engine("sqlite:///database/developers.db")
+engine = create_engine("sqlite:///developers.db")
 
 conn = engine.connect()
 
