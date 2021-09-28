@@ -1,5 +1,5 @@
 import json
-from .app_rest import create_app
+from app_rest import create_app
 
 
 def test_post_desenvolvedor():

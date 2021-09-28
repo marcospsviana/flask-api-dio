@@ -1,6 +1,6 @@
 import json
-from .app_rest import create_app
-from .models import Users, db_session
+from app_rest import create_app
+from models import Users, db_session
 
 
 def test_login_fail_username():

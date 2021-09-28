@@ -1,4 +1,4 @@
-from .app_rest import create_app
+from app_rest import create_app
 from flask_httpauth import HTTPBasicAuth
 
 
