@@ -2,6 +2,7 @@
 pytest
 black
 flake8
+pytest-flask
 pytest-cov
 codecov
 model_bakery

@@ -4,41 +4,76 @@ from decouple import config
 from flask import request
 from flask_httpauth import HTTPBasicAuth
 from flask_restful import Resource, http_status_message
-from passlib.hash import pbkdf2_sha256
-from models import Users
+from passlib.hash import hex_sha256
+from models import Users, db_session
 
 auth = HTTPBasicAuth()
 
 
+@auth.verify_password
+def verify(username, password):
+    secret = config("SECRET_KEY")
+    salt = config("SALT")
+    username_hash = hex_sha256.hash(username)
+    result = db_session.query(Users).filter(Users.username == username_hash)
+    user = {}
+    password_hash = secret + password + salt
+    for row in result:
+        user["username"] = row.username
+        print(f"row password {row.password}")
+        user["password"] = row.password
+    if hex_sha256.verify(password_hash, user["password"]):
+        return user
+    else:
+        return False
+
+
 class UserCreate(Resource):
+    @auth.login_required
     def post(self):
         data = json.loads(request.data)
-        username = data['username']
-        password = data['password']
-        users = Users.query.filter_by(username=username).first()
-        if users:
-            return http_status_message(400), 400
-        salt = config('SALT')
-        secret = config('SECRET_KEY')
-        username = secret + '_' + username
-        password = secret + '_' + password
-        username_hash = pbkdf2_sha256.hash(username, salt_size=15)
-        password_hash = pbkdf2_sha256.hash(password, salt_size=15)
-        user = Users()
-        user.username = username_hash
-        user.password = password_hash
-        user.save()
-        return http_status_message(201), 201
+        print(f"data  UserCreate {data}")
+        try:
+            salt = config("SALT")
+            secret = config("SECRET_KEY")
+            password = secret + data["password"] + salt
+            username_hash = hex_sha256.hash(data["username"])
+            password_hash = hex_sha256.hash(password)
+
+            user_exist = db_session.query(Users).filter(Users.username == username_hash)
+            if user_exist is not None:
+                return "user already exists", 400
+            # user.username = username_hash
+            # user.password = password_hash
+            user = Users(username=username_hash, password=password_hash)
+            user.save()
+            return http_status_message(201), 201
+        except Exception as err:
+            return err
 
 
 class UserAuth(Resource):
     def post(self):
         data = json.loads(request.data)
-        secret = config('SECRET_KEY')
-        username = secret + '_' + data['username']
-        password_secret = secret + '_' + data['password']
-        user = Users.query.filter(username == username).first()
-        if user and pbkdf2_sha256.verify(password_secret, user.password):
-            return data['username']
-        else:
-            return http_status_message(404), 404
+        if data == "":
+            return http_status_message(403), 403
+        print(f"data {data}, data type {type(data)}")
+        secret = config("SECRET_KEY")
+        salt = config("SALT")
+        password = data["password"]
+        username_hash = hex_sha256.hash(data["username"])
+        try:
+            result = db_session.query(Users).filter(Users.username == username_hash)
+            user = {}
+            password_hash = secret + password + salt
+            print(f"password_hash {password_hash}")
+            for row in result:
+                user["username"] = row.username
+                print(f"row password {row.password}")
+                user["password"] = row.password
+            if hex_sha256.verify(password_hash, user["password"]):
+                return http_status_message(200), 200
+            else:
+                return http_status_message(403), 403
+        except Exception:
+            return http_status_message(400), 400
