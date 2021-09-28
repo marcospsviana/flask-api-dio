@@ -14,7 +14,6 @@ auth = HTTPBasicAuth()
 
 @auth.verify_password
 def verify(username, password):
-
     secret = config("SECRET_KEY")
     salt = config("SALT")
     username_hash = hex_sha256.hash(username)
