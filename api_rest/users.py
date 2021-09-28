@@ -5,7 +5,7 @@ from flask import request
 from flask_httpauth import HTTPBasicAuth
 from flask_restful import Resource, http_status_message
 from passlib.hash import hex_sha256
-from models import Users, db_session
+from .models import Users, db_session
 
 auth = HTTPBasicAuth()
 

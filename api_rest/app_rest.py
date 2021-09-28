@@ -1,8 +1,8 @@
 from flask import Flask
 from flask_restful import Api
 
-from developers_app import DevelopersGet, CreateDeveloper, Developer
-from users import UserAuth, UserCreate
+from .developers_app import DevelopersGet, CreateDeveloper, Developer
+from .users import UserAuth, UserCreate
 
 
 def create_app():
