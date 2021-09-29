@@ -38,3 +38,4 @@ def test_desenvolvedor_index_put(client):
         client.put("/desenvolvedores/1", headers=headers, data=payload).status_code
         == 200
     )
+  
