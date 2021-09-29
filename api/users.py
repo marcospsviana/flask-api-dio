@@ -5,7 +5,7 @@ from flask import request
 from flask_httpauth import HTTPBasicAuth
 from flask_restful import Resource, http_status_message
 from passlib.hash import hex_sha256
-from models import Users, db_session
+from api.models import Users, db_session
 
 auth = HTTPBasicAuth()
 
@@ -29,20 +29,22 @@ def verify(username, password):
 
 
 class UserCreate(Resource):
-    @auth.login_required
     def post(self):
         data = json.loads(request.data)
-        print(f"data  UserCreate {data}")
+        print(f"data  UserCreate {data['username']}")
         try:
             salt = config("SALT")
             secret = config("SECRET_KEY")
-            password = secret + data["password"] + salt
-            username_hash = hex_sha256.hash(data["username"])
+            password = secret + str(data["password"]) + salt
+            username_hash = hex_sha256.hash(str(data["username"]))
             password_hash = hex_sha256.hash(password)
+            user = {}
 
-            user_exist = db_session.query(Users).filter(Users.username == username_hash)
-            if user_exist is not None:
-                return "user already exists", 400
+            user_db = db_session.query(Users).filter(Users.username == username_hash)
+            for row in user_db:
+                user_exist = hex_sha256.verify(data["username"], row.username)
+                if user_exist is not None:
+                    return "user already exists", 400
             # user.username = username_hash
             # user.password = password_hash
             user = Users(username=username_hash, password=password_hash)
