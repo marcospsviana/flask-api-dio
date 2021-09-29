@@ -13,6 +13,7 @@ def test_post_desenvolvedor():
     assert response.status_code == 201
 
 
+
 def test_get_desenvolvedor_index():
     flask_app = create_app()
     response = flask_app.test_client().get(
