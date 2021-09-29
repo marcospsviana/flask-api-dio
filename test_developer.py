@@ -4,11 +4,13 @@ from app_rest import create_app
 
 def test_post_desenvolvedor():
     flask_app = create_app()
+    payload = json.dumps({"name": "devnoia", "skills_ids": ["python", "flask"]})
     response = flask_app.test_client().post(
-        "/create-dev", headers={"Authorization": "Basic Y2FtaWxhOmNhbWlsYQ=="}
+        "/create-dev",
+        headers={"Authorization": "Basic Y2FtaWxhOmNhbWlsYQ=="},
+        data=payload,
     )
-    print(response.data)
-    assert response.status_code == 200
+    assert response.status_code == 201
 
 
 def test_get_desenvolvedor_index():
