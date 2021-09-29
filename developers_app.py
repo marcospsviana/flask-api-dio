@@ -1,6 +1,6 @@
 import json
 from flask import request
-from flask_restful import Resource
+from flask_restful import Resource, http_status_message
 from models import Developers, Users, db_session
 from http import HTTPStatus
 from flask_httpauth import HTTPBasicAuth
@@ -14,7 +14,6 @@ auth = HTTPBasicAuth()
 
 @auth.verify_password
 def verify(username, password):
-
     secret = config("SECRET_KEY")
     salt = config("SALT")
     username_hash = hex_sha256.hash(username)
@@ -46,15 +45,13 @@ class CreateDeveloper(Resource):
     @auth.login_required
     def post(self):
         try:
-            dados = json.loads(request.data)
-            developers = Developers()
-            developers["name"] = dados["name"]
-            developers["skills_ids"] = dados["skills_ids"]
-            db_session.save(developers)
+            data = json.loads(request.data)
+            developers = Developers(name=data["name"], skills_ids=data["skills_ids"])
+            developers.save()
             db_session.commit()
-            return HTTPStatus.OK
+            return http_status_message(201), 201
         except Exception:
-            return HTTPStatus.BAD_REQUEST
+            return http_status_message(400), 400
 
 
 class Developer(Resource):
