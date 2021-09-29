@@ -1,5 +1,6 @@
 flask
 flask-restful
-sqlalchemy
+SQLAlchemy
 python-decouple
 Flask-HTTPAuth
+passlib

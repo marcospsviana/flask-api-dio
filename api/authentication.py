@@ -1,5 +1,5 @@
 from flask_httpauth import HTTPBasicAuth
-from models import Users, db_session
+from api.models import Users, db_session
 from passlib.hash import hex_sha256
 from decouple import config
 

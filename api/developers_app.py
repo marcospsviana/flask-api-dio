@@ -1,7 +1,7 @@
 import json
 from flask import request
 from flask_restful import Resource, http_status_message
-from models import Developers, Users, db_session
+from api.models import Developers, Users, db_session
 from http import HTTPStatus
 from flask_httpauth import HTTPBasicAuth
 
