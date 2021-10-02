@@ -1,6 +1,7 @@
 flask
 flask-restful
-SQLAlchemy
+flask-sqlalchemy
 python-decouple
 Flask-HTTPAuth
 passlib
+flask-migrate
