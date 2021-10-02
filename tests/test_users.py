@@ -1,37 +1,32 @@
 import json
-from api.models import Users, db_session
 
 
-def test_login_fail_username(client):
-    payload = json.dumps({"username": "camil", "password": "camila"})
+def test_login_fail_username(client, db):
+    payload = json.dumps({"username": "teste", "password": "teste"})
     assert client.post("/authenticate", data=payload).status_code == 400
 
 
-def test_login_fail_password(client):
-    payload = json.dumps({"username": "camila", "password": "cam"})
+def test_login_fail_password(client, db):
+    payload = json.dumps({"username": "devpro", "password": "null"})
     assert client.post("/authenticate", data=payload).status_code == 403
 
 
-def test_user_create(client):
-    users = Users(username="user_nam", password="teste")
-    users.save()
-    assert users.username == "user_nam"
-    user_db = db_session.query(Users).filter(Users.username == users.username)
-    user_db.delete()
-    db_session.commit()
+def test_user_create(client, db):
+    payload = json.dumps({"username": "teste", "passord": "teste"})
+    assert client.post("/create-user", data=payload)
 
 
-def test_user_login_failed(client):
+def test_user_login_failed(client, db):
     headers = {"content-type": "application/json"}
-    payload = json.dumps({"username": "username", "password": "password"})
+    payload = json.dumps({"username": "", "password": "pass"})
     assert (
         client.post("/authenticate", headers=headers, data=payload).status_code == 400
     )
 
 
-def test_user_login_successful(client):
+def test_user_login_successful(client, db):
     headers = {"content-type": "application/json"}
-    payload = json.dumps({"username": "camila", "password": "camila"})
+    payload = json.dumps({"username": "devpro", "password": "devnull"})
     assert (
-        client.post("/authenticate", headers=headers, data=payload).status_code == 200
+        client.post("/authenticate", headers=headers, data=payload).status_code == 202
     )

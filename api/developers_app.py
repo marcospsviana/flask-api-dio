@@ -16,7 +16,7 @@ auth = HTTPBasicAuth()
 def verify(username, password):
     secret = config("SECRET_KEY")
     salt = config("SALT")
-    username_hash = hex_sha256.hash(username)
+    username_hash = username
     result = db_session.query(Users).filter(Users.username == username_hash)
     user = {}
     password_hash = secret + password + salt
@@ -24,10 +24,10 @@ def verify(username, password):
         user["username"] = row.username
         print(f"row password {row.password}")
         user["password"] = row.password
-    if hex_sha256.verify(password_hash, user["password"]):
-        return user
-    else:
-        return False
+        if hex_sha256.verify(password_hash, row.password):
+            return user
+        else:
+            return False
 
 
 class DevelopersGet(Resource):
