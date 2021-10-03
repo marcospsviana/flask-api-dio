@@ -5,9 +5,7 @@ from api.models import Developers, Users, db_session
 from http import HTTPStatus
 from flask_httpauth import HTTPBasicAuth
 from passlib.context import CryptContext
-# from authentication import verify_password
-from decouple import config
-from passlib.hash import hex_sha256
+
 
 auth = HTTPBasicAuth()
 
@@ -25,7 +23,6 @@ def verify(username, password):
         return user
     else:
         return False
-
 
 
 class DevelopersGet(Resource):

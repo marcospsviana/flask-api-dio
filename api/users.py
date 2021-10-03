@@ -1,6 +1,4 @@
 import json
-
-from decouple import config
 from flask import request
 from flask_httpauth import HTTPBasicAuth
 from flask_restful import Resource, http_status_message
@@ -14,7 +12,6 @@ auth = HTTPBasicAuth()
 def verify(username, password):
     myctx = CryptContext(schemes=["sha256_crypt"])
     result = Users.query.filter(Users.username == username)
-    user = {}
     for row in result:
         if myctx.verify(password, row.password):
             return True
@@ -52,14 +49,10 @@ class UserAuth(Resource):
         myctx = CryptContext(schemes=["sha256_crypt"])
 
         data = json.loads(request.data)
-        print(f"data {data}, data type {type(data)}")
-        secret = config("SECRET_KEY")
-        salt = config("SALT")
         password = data["password"]
         username_hash = data["username"]
         try:
             result = db_session.query(Users).filter(Users.username == username_hash)
-            user = {}
             for row in result:
                 if myctx.verify(password, row.password):
                     return http_status_message(202), 202
