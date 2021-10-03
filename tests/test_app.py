@@ -8,6 +8,6 @@ def test_get_page_get_not_found(client, db):
 
 def test_page_get(client, db):
     assert client.get( "/desenvolvedores",
-            headers={"Authorization": "Basic ZGV2cHJvOmRldm51bGw="}
+            headers={'Authorization': 'Basic ZGV2dGVzdDpkZXZudWxs'}
         ).status_code == 200
     
