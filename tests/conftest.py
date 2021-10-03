@@ -5,7 +5,6 @@ from passlib.context import CryptContext
 from api.models import Users
 import os
 
-
 from api.app_rest import create_app
 
 
@@ -13,6 +12,7 @@ from api.app_rest import create_app
 def app():
     
     return create_app()
+
 
 
 @pytest.fixture(scope='session')
@@ -23,4 +23,3 @@ def db():
     user.save()
     yield user
     user.delete()
-

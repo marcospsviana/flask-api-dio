@@ -5,6 +5,7 @@ from flask import request
 from flask_httpauth import HTTPBasicAuth
 from flask_restful import Resource, http_status_message
 from passlib.context import CryptContext
+
 from api.models import Users, db_session
 
 auth = HTTPBasicAuth()
@@ -67,3 +68,4 @@ class UserAuth(Resource):
             return http_status_message(401), 401
         except Exception as err:
             return {"err": str(err)}
+

@@ -16,6 +16,7 @@ auth = HTTPBasicAuth()
 def verify(username, password):
     myctx = CryptContext(schemes=["sha256_crypt"])
     result = Users.query.filter(Users.username == username)
+
     user = {}
     for row in result:
         user["username"] = row.username
@@ -44,12 +45,12 @@ class CreateDeveloper(Resource):
     def post(self):
         try:
             data = json.loads(request.data)
+            print(f'data name create dev {data["name"]}')
             developers = Developers(name=data["name"], skills_ids=data["skills_ids"])
             developers.save()
-            db_session.commit()
             return http_status_message(201), 201
-        except Exception:
-            return http_status_message(400), 400
+        except Exception as err:
+            return {"err": err}
 
 
 class Developer(Resource):
