@@ -418,9 +418,7 @@ sqlalchemy==1.4.23 \
     --hash=sha256:d9667260125688c71ccf9af321c37e9fb71c2693575af8210f763bfbbee847c7 \
     --hash=sha256:e0ce4a2e48fe0a9ea3a5160411a4c5135da5255ed9ac9c15f15f2bcf58c34194 \
     --hash=sha256:e9d4f4552aa5e0d1417fc64a2ce1cdf56a30bab346ba6b0dd5e838eb56db4d29
-    # via
-    #   alembic
-    #   flask-sqlalchemy
+    # via -r requirements.in
 toml==0.10.2 \
     --hash=sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b \
     --hash=sha256:b3bda1d108d5dd99f4a20d24d9c348e91c4db7ab1b749200bded2f839ccbe68f

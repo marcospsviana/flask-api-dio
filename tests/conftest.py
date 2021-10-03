@@ -60,6 +60,7 @@ CREATE TABLE developers
 
 @pytest.fixture(scope="session")
 def app():
+<<<<<<< HEAD
     app = create_app()
     return app
 
@@ -77,3 +78,14 @@ def db():
     # # user.delete(db_user)
     conn.execute("DELETE FROM users WHERE id = 1")
     # conn.close()
+=======
+    
+    return create_app()
+
+
+@pytest.fixture
+def db():
+    user = Users(id=1, username="devpro", password="devnull")
+    return user
+
+>>>>>>> 94f1ea30bd90da17b14242862bf049a0b5ab9f9e
