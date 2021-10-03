@@ -6,7 +6,6 @@ from http import HTTPStatus
 from flask_httpauth import HTTPBasicAuth
 from passlib.context import CryptContext
 
-
 auth = HTTPBasicAuth()
 
 
