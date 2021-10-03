@@ -1,6 +1,6 @@
 import pytest
 import sys
-
+from passlib.context import CryptContext
 
 from api.models import Users
 import os
@@ -9,14 +9,18 @@ import os
 from api.app_rest import create_app
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def app():
     
     return create_app()
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def db():
-    user = Users(id=1, username="devpro", password="devnull")
-    return user
+    myctx = CryptContext(schemes=["sha256_crypt"])
+    password = myctx.hash("teste")
+    user = Users(username="devtest", password=password)
+    user.save()
+    yield user
+    user.delete()
 

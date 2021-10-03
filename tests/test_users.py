@@ -3,12 +3,12 @@ import json
 
 def test_login_fail_username(client, db):
     payload = json.dumps({"username": "teste", "password": "teste"})
-    assert client.post("/authenticate", data=payload).status_code == 400
+    assert client.post("/authenticate", data=payload).status_code == 401
 
 
 def test_login_fail_password(client, db):
     payload = json.dumps({"username": "devpro", "password": "null"})
-    assert client.post("/authenticate", data=payload).status_code == 403
+    assert client.post("/authenticate", data=payload).status_code == 401
 
 
 def test_user_create(client, db):
@@ -20,13 +20,13 @@ def test_user_login_failed(client, db):
     headers = {"content-type": "application/json"}
     payload = json.dumps({"username": "", "password": "pass"})
     assert (
-        client.post("/authenticate", headers=headers, data=payload).status_code == 400
+        client.post("/authenticate", headers=headers, data=payload).status_code == 401
     )
 
 
 def test_user_login_successful(client, db):
     headers = {"content-type": "application/json"}
-    payload = json.dumps({"username": "devpro", "password": "devnull"})
+    payload = json.dumps({"username": "devtest", "password": "teste"})
     assert (
         client.post("/authenticate", headers=headers, data=payload).status_code == 202
     )
