@@ -31,6 +31,10 @@ class Users(Base):
     def save(self):
         db_session.add(self)
         db_session.commit()
+    
+    def delete(self):
+        db_session.delete(self)
+        db_session.commit()
 
 
 class Developers(Base):
@@ -40,7 +44,7 @@ class Developers(Base):
     skills_ids = Column(JSON(none_as_null=False))
 
     def delete(self):
-        db_session.remove(self)
+        db_session.delete(self)
         db_session.commit()
 
     def save(self):

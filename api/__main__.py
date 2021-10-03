@@ -1,4 +1,5 @@
-from .app_rest import create_app
+from api.app_rest import create_app
+
 
 
 if __name__ == "__main__":
