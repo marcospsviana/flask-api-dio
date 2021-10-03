@@ -1,8 +1,9 @@
 from flask import Flask
 from flask_restful import Api
-
+from flask_migrate import Migrate
 from api.developers_app import DevelopersGet, CreateDeveloper, Developer
 from api.users import UserAuth, UserCreate
+from flask_sqlalchemy import SQLAlchemy
 
 
 def create_app():
@@ -13,6 +14,9 @@ def create_app():
     api.add_resource(Developer, "/desenvolvedores/<int:id>")
     api.add_resource(UserCreate, "/create-user")
     api.add_resource(UserAuth, "/authenticate")
+
+    # db = SQLAlchemy(app)
+    # migrate = Migrate(app, db)
 
     return app
 
