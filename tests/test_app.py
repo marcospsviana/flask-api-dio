@@ -1,7 +1,6 @@
 import json
 
 
-
 def test_get_page_post(client, db):
     assert client.post("/").status_code == 404
 
