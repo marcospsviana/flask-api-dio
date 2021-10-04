@@ -22,11 +22,6 @@ class Users(Base):
 
     def __repr__(self):
         return self.username
-    
-    def delete(self):
-        db_session.remove(self)
-        db_session.commit()
-        
 
     def save(self):
         db_session.add(self)

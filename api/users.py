@@ -61,4 +61,3 @@ class UserAuth(Resource):
             return http_status_message(401), 401
         except Exception as err:
             return {"err": str(err)}
-

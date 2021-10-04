@@ -1,9 +1,7 @@
-from flask import Flask
-from flask_restful import Api
-from flask_migrate import Migrate
 from api.developers_app import DevelopersGet, CreateDeveloper, Developer
 from api.users import UserAuth, UserCreate
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask
+from flask_restful import Api
 
 
 def create_app():
